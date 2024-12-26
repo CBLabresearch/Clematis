@@ -49,6 +49,8 @@ python clematis.py -f target.exe -o output.bin -g false -c false
 python clematis.py -f target.exe -o output.bin -p arg1 arg2
 ```
 
+---
+
 ## 🔍 How It Works
 
 Clematis converts PE files to shellcode through the following steps:
@@ -59,11 +61,43 @@ Clematis converts PE files to shellcode through the following steps:
 4. Optional obfuscation processing
 5. Generate final position-independent shellcode
 
+```mermaid
+flowchart TD
+    A[START] --> B[Read PE file]
+    B --> C[Parse PE structure]
+    C --> D{Is there a command line argument?}
+    D -- TRUE --> E[Process command line arguments]
+    D -- FALSE --> F{Enable compression?}
+    E --> F
+    F -- TRUE --> G[LZNT1 compression]
+    F -- FALSE --> H{Enable obfuscation?}
+    G --> H
+    H -- TRUE --> I[Execute obfuscation processing]
+    H -- FALSE --> J[Generate shellcode]
+    I --> J
+    J --> K[Output result]
+    K --> L[END]
+```
+
+---
+
 ## 📝 Notes
 
 - Ensure sufficient permissions to read source PE files and write target files
 - Compression is recommended when converting large files
 - Obfuscation may add some performance overhead but provides better stealth
+
+## ⚠️ Known Issues
+
+- Parts of an application (exe) built with mingw | gcc may fail to load, it may be caused by relocation?
+
+## 🗓️ Planned Features
+
+- Support for .NET assemblies conversion
+- Advanced encryption options for better security
+- GUI interface for easier operation
+- Real-time conversion progress monitoring
+- Processing of resources in PE
 
 ## 🤝 Contributing
 
