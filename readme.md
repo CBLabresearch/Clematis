@@ -1,5 +1,7 @@
 # Clematis
 
+[ [中文](https://github.com/CBLabresearch/clematis/blob/main/readme_ch.md) | [English](https://github.com/CBLabresearch/clematis/blob/main/readme.md) ]
+
 🛠️ A powerful tool for converting PE files (EXE/DLL) into position-independent shellcode.
 
 ## ✨ Key Features
