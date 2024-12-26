@@ -1,68 +1,68 @@
 # Clematis
 
-🛠️ 一个将 PE 文件（EXE/DLL）转换为位置无关shellcode的强大工具。
+🛠️ A powerful tool for converting PE files (EXE/DLL) into position-independent shellcode.
 
-## ✨ 主要特性
+## ✨ Key Features
 
-- 支持将 PE 文件（EXE/DLL）转换为 shellcode
-- 同时支持 x86 和 x64 架构
-- 支持命令行参数传递
-- 内置 LZNT1 压缩算法，显著减小输出文件大小
-- 可选的混淆功能，提供更好的隐蔽性
+- Support for converting PE files (EXE/DLL) to shellcode
+- Compatible with both x86 and x64 architectures
+- Command-line argument support
+- Built-in LZNT1 compression algorithm for significant output file size reduction
+- Optional obfuscation for enhanced stealth
 
-## 📦 安装
+## 📦 Installation
 
-### 依赖项
+### Dependencies
 ```bash
 pip install pefile lznt1
 ```
 
-## 🚀 使用方法
+## 🚀 Usage
 
 ```bash
-python clematis.py -f <PE文件> -o <输出文件> [-g <true/false>] [-c <true/false>] [-p <参数>]
+python clematis.py -f <PE_file> -o <output_file> [-g <true/false>] [-c <true/false>] [-p <parameters>]
 ```
 
-### 参数说明
+### Parameters
 
-- `-f, --file`: 需要转换的 PE 文件路径（必需）
-- `-o, --output`: 输出文件名（必需）
-- `-g, --garble`: 是否启用混淆功能 [默认: true]
-- `-c, --compress`: 是否启用压缩功能 [默认: true]
-- `-p, --parameter`: 传递给 PE 文件的执行参数
+- `-f, --file`: Path to the PE file to convert (required)
+- `-o, --output`: Output filename (required)
+- `-g, --garble`: Enable obfuscation [default: true]
+- `-c, --compress`: Enable compression [default: true]
+- `-p, --parameter`: Execution parameters to pass to the PE file
 
-### 示例
+### Examples
 
 ```bash
-# 显示帮助信息
+# Show help information
 python clematis.py -h
 
-# 基本使用
+# Basic usage
 python clematis.py -f target.exe -o output.bin
 
-# 禁用混淆和压缩
+# Disable obfuscation and compression
 python clematis.py -f target.exe -o output.bin -g false -c false
 
-# 传递参数给目标程序
+# Pass arguments to target program
 python clematis.py -f target.exe -o output.bin -p arg1 arg2
 ```
 
-## 🔍 工作原理
+## 🔍 How It Works
 
-Clematis 通过以下步骤将 PE 文件转换为 shellcode：
+Clematis converts PE files to shellcode through the following steps:
 
-1. 读取并解析目标 PE 文件
-2. 处理命令行参数（如果有）
-3. 可选的 LZNT1 压缩
-4. 可选的混淆处理
-5. 生成最终的位置无关 shellcode
+1. Read and parse target PE file
+2. Process command line arguments (if any)
+3. Optional LZNT1 compression
+4. Optional obfuscation processing
+5. Generate final position-independent shellcode
 
-## 📝 注意事项
+## 📝 Notes
 
-- 确保有足够的权限读取源 PE 文件和写入目标文件
-- 建议在转换大文件时启用压缩功能
-- 混淆功能可能会增加一些性能开销，但能提供更好的隐蔽性
+- Ensure sufficient permissions to read source PE files and write target files
+- Compression is recommended when converting large files
+- Obfuscation may add some performance overhead but provides better stealth
 
-## 🤝 贡献
+## 🤝 Contributing
 
-欢迎提交 Issue 和 Pull Request！
+Issues and Pull Requests are welcome!
