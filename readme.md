@@ -81,6 +81,36 @@ flowchart TD
 
 ---
 
+## 📝 Our Advantages
+
+- 🎯 Support for DOT NET
+- 🗜️ Compression support
+- 🎭 Obfuscation support
+- 🔄 Parameter passing support
+- 🚀 Full support for golang
+- 💪 Generated shellcode is powerful and stable
+
+## 💡 Design Philosophy
+
+##### In certain special environments, we may encounter the following challenges:
+
+```text
+- 🛡️ Unable to perform process injection (AV/EDR/XDR blocking)
+- 🔄 Executing golang programs in current process may cause blocking
+- 💾 Memory leaks may occur after golang program execution
+- ⚠️ Threads created by golang cannot be released!
+```
+
+##### To address these issues, we developed clematis:
+
+```
+- ✨ Convert golang programs to shellcode
+- 🎯 Direct execution in current process
+- ♻️ Automatic memory release after execution
+- 🚀 Completely avoid golang-related memory issues
+- 🔄 Reclaim all threads created by golang
+```
+
 ## 📝 Notes
 
 - Ensure sufficient permissions to read source PE files and write target files
@@ -100,7 +130,7 @@ flowchart TD
 
 ## 🔄 Recent Updates
 
-- Support for .NET ( x64 | x86 )
+- Support for DOT NET (x64 | x86)
 
 ## 🤝 Contributing
 
