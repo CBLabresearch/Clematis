@@ -93,11 +93,14 @@ flowchart TD
 
 ## 🗓️ Planned Features
 
-- Support for .NET assemblies conversion
 - Advanced encryption options for better security
 - GUI interface for easier operation
 - Real-time conversion progress monitoring
 - Processing of resources in PE
+
+## 🔄 Recent Updates
+
+- Support for .NET ( x64 | x86 )
 
 ## 🤝 Contributing
 

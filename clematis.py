@@ -55,14 +55,22 @@ class Pack( object ):
 def enable( value ) -> bool:
     return value.lower() == 'true'
 
-def arch( args ) -> str:
-    with pefile.PE( args.file ) as pe:
-        arch = pe.FILE_HEADER.Machine == 0x8664 and 'x64' or 'x86'
-    return arch
+def arch( pe ) -> str:
+    return pe.FILE_HEADER.Machine == 0x8664 and 'x64' or 'x86'
 
-def boot( args ) -> bytes:
-    with open( f'bin/peload.{ arch( args ) }.bin', 'rb' ) as f:
-        return f.read()
+def is_assembly( pe : pefile.PE ) -> bool:
+    if len( pe.OPTIONAL_HEADER.DATA_DIRECTORY ) >= 14:
+        return pe.OPTIONAL_HEADER.DATA_DIRECTORY[ 14 ].VirtualAddress != 0 and pe.OPTIONAL_HEADER.DATA_DIRECTORY[ 14 ].Size != 0
+
+    return False
+
+def boot( pe ) -> bytes:
+    if is_assembly( pe ):
+        with open( f'bin/dotnet.{ arch( pe ) }.bin', 'rb' ) as f:
+            return f.read()
+    else:
+        with open( f'bin/peload.{ arch( pe ) }.bin', 'rb' ) as f:
+            return f.read()
 
 def file( args ) -> bytes:
     with open( args.file, 'rb' ) as f:
@@ -111,12 +119,14 @@ def main():
     para = Pack()
     data = Pack()
     comp = Pack()
+    pe   = pefile.PE( args.file )
 
     # output prompt message
-    print( f'[+] file:      { args.file    }' )
-    print( f'[+] parameter: { argv( args ) }' )
-    print( f'[+] output:    { args.output  }' )
-    print( f'[+] arch:      { arch( args ) }' )
+    print( f'[+] file:      { args.file         }' )
+    print( f'[+] parameter: { argv( args )      }' )
+    print( f'[+] output:    { args.output       }' )
+    print( f'[+] arch:      { arch( pe )        }' )
+    print( f'[+] dotnet:    { is_assembly( pe ) }' )
 
     # build payload arguments
     para.strs( argv( args ) )
@@ -133,17 +143,17 @@ def main():
     comp.byts( key )
 
     # compress payload
-    data.join( boot( args ) )
+    data.join( boot( pe ) )
     data.byts( comp.build() )
 
     # write shellcode
     with open( args.output, 'wb' ) as f:
         f.write( data.build() )
 
-    print( f'[+] compress: { enable( args.compress ) }' )
-    print( f'[+] garble:   { enable( args.garble ) }' )
-    print( f'[+] save:     { args.output } | size: { len( data.build() ) }' )
-    print( f'[+] time:     { int( time.time() ) - int( stat ) }s' )
+    print( f'[+] compress:  { enable( args.compress ) }' )
+    print( f'[+] garble:    { enable( args.garble ) }' )
+    print( f'[+] save:      { args.output } | size: { len( data.build() ) }' )
+    print( f'[+] time:      { int( time.time() ) - int( stat ) }s' )
 
 if __name__ == "__main__":
     main()

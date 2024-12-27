@@ -2,7 +2,7 @@
 
 [ [中文](https://github.com/CBLabresearch/clematis/blob/main/readme_ch.md) | [English](https://github.com/CBLabresearch/clematis/blob/main/readme.md) ]
 
-🛠️ 一个强大的工具，用于将PE文件（EXE/DLL）转换为位置无关的shellcode。
+🛠️ 一个强大的工具，用于将PE文件（EXE/DLL）转换为与位置无关的shellcode。
 
 ## ✨ 主要特性
 
@@ -49,6 +49,8 @@ python clematis.py -f target.exe -o output.bin -g false -c false
 python clematis.py -f target.exe -o output.bin -p arg1 arg2
 ```
 
+---
+
 ## 🔍 工作原理
 
 Clematis通过以下步骤将PE文件转换为shellcode：
@@ -77,6 +79,8 @@ flowchart TD
     K --> L[结束]
 ```
 
+---
+
 ## 📝 注意事项
 
 - 确保有足够的权限读取源PE文件和写入目标文件
@@ -89,11 +93,14 @@ flowchart TD
 
 ## 🗓️ 计划功能
 
-- 支持.NET程序集的转换
 - 更高级的加密选项以提升安全性
 - 图形界面支持，便于操作
 - 实时转换进度监控
 - 处理PE中的资源
+
+## 🔄 最近更新
+
+- 支持.NET（x64 | x86）
 
 ## 🤝 贡献
 
