@@ -47,41 +47,11 @@ python clematis.py -f target.exe -o output.bin -g false -c false
 
 # Pass arguments to target program
 python clematis.py -f target.exe -o output.bin -p arg1 arg2
+
+python clematis.py -f target.exe -o output.bin -p "arg1 arg2"
 ```
 
----
-
-## 🔍 How It Works
-
-Clematis converts PE files to shellcode through the following steps:
-
-1. Read and parse target PE file
-2. Process command line arguments (if any)
-3. Optional LZNT1 compression
-4. Optional obfuscation processing
-5. Generate final position-independent shellcode
-
-```mermaid
-flowchart TD
-    A[START] --> B[Read PE file]
-    B --> C[Parse PE structure]
-    C --> D{Is there a command line argument?}
-    D -- TRUE --> E[Process command line arguments]
-    D -- FALSE --> F{Enable compression?}
-    E --> F
-    F -- TRUE --> G[LZNT1 compression]
-    F -- FALSE --> H{Enable obfuscation?}
-    G --> H
-    H -- TRUE --> I[Execute obfuscation processing]
-    H -- FALSE --> J[Generate shellcode]
-    I --> J
-    J --> K[Output result]
-    K --> L[END]
-```
-
----
-
-## 📝 Our Advantages
+## 💪 Our Advantages
 
 - 🎯 Support for DOT NET
 - 🗜️ Compression support
@@ -119,7 +89,8 @@ flowchart TD
 
 ## ⚠️ Known Issues
 
-- Parts of an application (exe) built with mingw | gcc may fail to load, it may be caused by relocation?
+- Parts of an application (exe) built with mingw | gcc may fail to load, it may be caused by relocation? ( Not implemented )
+- DOT NET illegal memory access ( Fixed )
 
 ## 🗓️ Planned Features
 
@@ -127,10 +98,67 @@ flowchart TD
 - GUI interface for easier operation
 - Real-time conversion progress monitoring
 - Processing of resources in PE
+- Enhanced evasion capabilities, such as [ProxyDll, Syscall, ...]
 
 ## 🔄 Recent Updates
 
-- Support for DOT NET (x64 | x86)
+- 2024-12-27
+    - Support for DOT NET (x64 | x86)
+- 2024-12-28
+    - Fixed potential DOT NET program crashes (May not occur)
+    - Added handling for IMAGE_DIRECTORY_ENTRY_EXCEPTION ( x64 )
+    - Updated APIs to use NTAPI
+
+        | before | now |
+        | --- | --- |
+        | `VirtualAlloc` | `NtAllocateVirtualMemory` |
+        | `VirtualProtect` | `NtProtectVirtualMemory` |
+        | `VirtualFree` | `NtFreeVirtualMemory` |
+        | `LoadLibrary` | `LdrLoadDll` |
+        | `GetProcAddress` | `LdrGetProcedureAddress` |
+        | `WaitForMultipleObjects` | `NtWaitForMultipleObjects` |
+        | `CreateEvent` | `NtCreateEvent` |
+        | `CloseHandle` | `NtClose` |
+        | `SignalObjectAndWait` | `NtSignalAndWaitForSingleObject` |
+        | `TerminateThread` | `NtTerminateThread` |
+        | `SuspendThread` | `NtSuspendThread` |
+        | `OpenThread` | `NtOpenThread` |
+        | `ResumeThread` | `NtResumeThread` |
+        | `GetContextThread` | `NtGetContextThread` |
+        | `SetContextThread` | `NtSetContextThread` |
+        | ... |
+
+---
+
+## 🔍 How It Works
+
+Clematis converts PE files to shellcode through the following steps:
+
+1. Read and parse target PE file
+2. Process command line arguments (if any)
+3. Optional LZNT1 compression
+4. Optional obfuscation processing
+5. Generate final position-independent shellcode
+
+```mermaid
+flowchart TD
+    A[START] --> B[Read PE file]
+    B --> C[Parse PE structure]
+    C --> D{Is there a command line argument?}
+    D -- TRUE --> E[Process command line arguments]
+    D -- FALSE --> F{Enable compression?}
+    E --> F
+    F -- TRUE --> G[LZNT1 compression]
+    F -- FALSE --> H{Enable obfuscation?}
+    G --> H
+    H -- TRUE --> I[Execute obfuscation processing]
+    H -- FALSE --> J[Generate shellcode]
+    I --> J
+    J --> K[Output result]
+    K --> L[END]
+```
+
+---
 
 ## 🤝 Contributing
 

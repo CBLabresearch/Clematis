@@ -47,39 +47,9 @@ python clematis.py -f target.exe -o output.bin -g false -c false
 
 # 传递参数给目标程序
 python clematis.py -f target.exe -o output.bin -p arg1 arg2
+
+python clematis.py -f target.exe -o output.bin -p "arg1 arg2"
 ```
-
----
-
-## 🔍 工作原理
-
-Clematis通过以下步骤将PE文件转换为shellcode：
-
-1. 读取并解析目标PE文件
-2. 处理命令行参数（如果有）
-3. 可选的LZNT1压缩
-4. 可选的混淆处理
-5. 生成最终的位置无关shellcode
-
-```mermaid
-flowchart TD
-    A[开始] --> B[读取PE文件]
-    B --> C[解析PE结构]
-    C --> D{是否有命令行参数?}
-    D -- 是 --> E[处理命令行参数]
-    D -- 否 --> F{是否启用压缩?}
-    E --> F
-    F -- 是 --> G[LZNT1压缩]
-    F -- 否 --> H{是否启用混淆?}
-    G --> H
-    H -- 是 --> I[执行混淆处理]
-    H -- 否 --> J[生成shellcode]
-    I --> J
-    J --> K[输出结果]
-    K --> L[结束]
-```
-
----
 
 ## 💪 我们的优势
 
@@ -119,7 +89,8 @@ flowchart TD
 
 ## ⚠️ 已知问题
 
-- 使用mingw | gcc编译的应用程序（exe）的部分内容可能无法加载，这可能是由重定位导致的？
+- 使用mingw | gcc编译的应用程序（exe）的部分内容可能无法加载，这可能是由重定位导致的？( 未实现 )
+- DOT NET 出现非法内存访问 ( 已修复 )
 
 ## 🗓️ 计划功能
 
@@ -127,10 +98,68 @@ flowchart TD
 - 图形界面支持，便于操作
 - 实时转换进度监控
 - 处理PE中的资源
+- 增加规避能力，比如 [ ProxyDll, Syscall, ... ]
 
 ## 🔄 最近更新
 
-- 支持 DOT NET（x64 | x86）
+- 2024-12-27
+    - 支持 DOT NET（x64 | x86）
+- 2024-12-28
+    - 修复了一些潜在的问题
+    - 修复 DOT NET 可能会导致程序崩溃的问题 ( 也许不会发生 )
+    - 添加对 IMAGE_DIRECTORY_ENTRY_EXCEPTION ( x64 ) 的处理
+    - 将部分的API改为使用NTAPI
+
+        | before | now |
+        | --- | --- |
+        | `VirtualAlloc` | `NtAllocateVirtualMemory` |
+        | `VirtualProtect` | `NtProtectVirtualMemory` |
+        | `VirtualFree` | `NtFreeVirtualMemory` |
+        | `LoadLibrary` | `LdrLoadDll` |
+        | `GetProcAddress` | `LdrGetProcedureAddress` |
+        | `WaitForMultipleObjects` | `NtWaitForMultipleObjects` |
+        | `CreateEvent` | `NtCreateEvent` |
+        | `CloseHandle` | `NtClose` |
+        | `SignalObjectAndWait` | `NtSignalAndWaitForSingleObject` |
+        | `TerminateThread` | `NtTerminateThread` |
+        | `SuspendThread` | `NtSuspendThread` |
+        | `OpenThread` | `NtOpenThread` |
+        | `ResumeThread` | `NtResumeThread` |
+        | `GetContextThread` | `NtGetContextThread` |
+        | `SetContextThread` | `NtSetContextThread` |
+        | ... |
+
+---
+
+## 🔍 工作原理
+
+Clematis通过以下步骤将PE文件转换为shellcode：
+
+1. 读取并解析目标PE文件
+2. 处理命令行参数（如果有）
+3. 可选的LZNT1压缩
+4. 可选的混淆处理
+5. 生成最终的位置无关shellcode
+
+```mermaid
+flowchart TD
+    A[开始] --> B[读取PE文件]
+    B --> C[解析PE结构]
+    C --> D{是否有命令行参数?}
+    D -- 是 --> E[处理命令行参数]
+    D -- 否 --> F{是否启用压缩?}
+    E --> F
+    F -- 是 --> G[LZNT1压缩]
+    F -- 否 --> H{是否启用混淆?}
+    G --> H
+    H -- 是 --> I[执行混淆处理]
+    H -- 否 --> J[生成shellcode]
+    I --> J
+    J --> K[输出结果]
+    K --> L[结束]
+```
+
+---
 
 ## 🤝 贡献
 
