@@ -27,11 +27,13 @@ python clematis.py -f <PE文件> -o <输出文件> [-g <true/false>] [-c <true/f
 
 ### 参数说明
 
-- `-f, --file`: PE文件路径（必需）
-- `-o, --output`: 输出文件名（必需）
-- `-g, --garble`: 启用混淆功能 [默认: true]
-- `-c, --compress`: 启用压缩功能 [默认: true]
-- `-p, --parameter`: 传递给PE文件的执行参数
+|  |  | 描述 | 默认值 | 是否必需 |
+|--|--|------|---------|---------|
+| **-f** | **--file** | 需要转换的PE文件路径 | | 是 |
+| **-o** | **--output** | 输出文件名 | | 是 |
+| **-g** | **--garble** | 启用混淆 | true | 否 |
+| **-c** | **--compress** | 启用压缩 | true | 否 |
+| **-p** | **--parameter** | 传递给PE文件的执行参数 | | 否 |
 
 ### 使用示例
 
@@ -83,14 +85,14 @@ python clematis.py -f target.exe -o output.bin -p "arg1 arg2"
 
 ## 📝 注意事项
 
-- 确保有足够的权限读取源PE文件和写入目标文件
+- 确保有足够的权限读取源PE文件和写入���标文件
 - 转换大文件时建议启用压缩功能
 - 混淆可能会增加一些性能开销，但能提供更好的隐蔽性
 
 ## ⚠️ 已知问题
 
-- 使用mingw | gcc编译的应用程序（exe）的部分内容可能无法加载，这可能是由重定位导致的？( 未实现 )
-- DOT NET 出现非法内存访问 ( 已修复 )
+- 使用mingw | gcc编译的应用程序（exe）的部分内容可能无法加载，这可能是由重定位导致的？（未实现）
+- DOT NET 出现非法内存访问（已修复）
 
 ## 🗓️ 计划功能
 
@@ -98,36 +100,31 @@ python clematis.py -f target.exe -o output.bin -p "arg1 arg2"
 - 图形界面支持，便于操作
 - 实时转换进度监控
 - 处理PE中的资源
-- 增加规避能力，比如 [ ProxyDll, Syscall, ... ]
+- 增加规避能力，比如 [ProxyDll, Syscall, ...]
 
 ## 🔄 最近更新
 
-- 2024-12-27
-    - 支持 DOT NET（x64 | x86）
-- 2024-12-28
-    - 修复了一些潜在的问题
-    - 修复 DOT NET 可能会导致程序崩溃的问题 ( 也许不会发生 )
-    - 添加对 IMAGE_DIRECTORY_ENTRY_EXCEPTION ( x64 ) 的处理
-    - 将部分的API改为使用NTAPI
-
-        | before | now |
-        | --- | --- |
-        | `VirtualAlloc` | `NtAllocateVirtualMemory` |
-        | `VirtualProtect` | `NtProtectVirtualMemory` |
-        | `VirtualFree` | `NtFreeVirtualMemory` |
-        | `LoadLibrary` | `LdrLoadDll` |
-        | `GetProcAddress` | `LdrGetProcedureAddress` |
-        | `WaitForMultipleObjects` | `NtWaitForMultipleObjects` |
-        | `CreateEvent` | `NtCreateEvent` |
-        | `CloseHandle` | `NtClose` |
-        | `SignalObjectAndWait` | `NtSignalAndWaitForSingleObject` |
-        | `TerminateThread` | `NtTerminateThread` |
-        | `SuspendThread` | `NtSuspendThread` |
-        | `OpenThread` | `NtOpenThread` |
-        | `ResumeThread` | `NtResumeThread` |
-        | `GetContextThread` | `NtGetContextThread` |
-        | `SetContextThread` | `NtSetContextThread` |
-        | ... |
+- 支持 DOT NET（x64 | x86）
+- 修复了潜在的 DOT NET 程序崩溃问题（可能不会发生）
+- 更新API使用NTAPI
+    | 原API | 新API |
+    | --- | --- |
+    | `VirtualAlloc` | `NtAllocateVirtualMemory` |
+    | `VirtualProtect` | `NtProtectVirtualMemory` |
+    | `VirtualFree` | `NtFreeVirtualMemory` |
+    | `LoadLibrary` | `LdrLoadDll` |
+    | `GetProcAddress` | `LdrGetProcedureAddress` |
+    | `WaitForMultipleObjects` | `NtWaitForMultipleObjects` |
+    | `CreateEvent` | `NtCreateEvent` |
+    | `CloseHandle` | `NtClose` |
+    | `SignalObjectAndWait` | `NtSignalAndWaitForSingleObject` |
+    | `TerminateThread` | `NtTerminateThread` |
+    | `SuspendThread` | `NtSuspendThread` |
+    | `OpenThread` | `NtOpenThread` |
+    | `ResumeThread` | `NtResumeThread` |
+    | `GetContextThread` | `NtGetContextThread` |
+    | `SetContextThread` | `NtSetContextThread` |
+    | ... |
 
 ---
 

@@ -27,11 +27,13 @@ python clematis.py -f <PE_file> -o <output_file> [-g <true/false>] [-c <true/fal
 
 ### Parameters
 
-- `-f, --file`: Path to the PE file to convert (required)
-- `-o, --output`: Output filename (required)
-- `-g, --garble`: Enable obfuscation [default: true]
-- `-c, --compress`: Enable compression [default: true]
-- `-p, --parameter`: Execution parameters to pass to the PE file
+|  |  | desc | default | required |
+|--|--|------|---------|---------|
+| **-f** | **--file** | Path to the PE file to convert| | true |
+| **-o** | **--output** | Output filename | | true |
+| **-g** | **--garble** | Enable obfuscation | true | false |
+| **-c** | **--compress** | Enable compression | true | false |
+| **-p** | **--parameter** | Execution parameters to pass to the PE file |  | false |
 
 ### Examples
 
