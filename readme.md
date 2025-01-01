@@ -1,5 +1,7 @@
 # Clematis
 
+![ clematis ](images/clematis.png)
+
 [ [中文](https://github.com/CBLabresearch/clematis/blob/main/readme_ch.md) | [English](https://github.com/CBLabresearch/clematis/blob/main/readme.md) ]
 
 🛠️ A powerful tool for converting PE files (EXE/DLL) into position-independent shellcode.
@@ -27,13 +29,13 @@ python clematis.py -f <PE_file> -o <output_file> [-g <true/false>] [-c <true/fal
 
 ### Parameters
 
-|  |  | desc | default | required |
-|--|--|------|---------|---------|
-| **-f** | **--file** | Path to the PE file to convert| | true |
-| **-o** | **--output** | Output filename | | true |
-| **-g** | **--garble** | Enable obfuscation | true | false |
-| **-c** | **--compress** | Enable compression | true | false |
-| **-p** | **--parameter** | Execution parameters to pass to the PE file |  | false |
+|        |                 | desc                                        | default | required |
+|--------|-----------------|---------------------------------------------|---------|----------|
+| **-f** | **--file**      | Path to the PE file to convert              |         | true     |
+| **-o** | **--output**    | Output filename                             |         | true     |
+| **-g** | **--garble**    | Enable obfuscation                          | true    | false    |
+| **-c** | **--compress**  | Enable compression                          | true    | false    |
+| **-p** | **--parameter** | Execution parameters to pass to the PE file |         | false    |
 
 ### Examples
 
@@ -75,7 +77,7 @@ python clematis.py -f target.exe -o output.bin -p "arg1 arg2"
 
 ##### To address these issues, we developed clematis:
 
-```
+```text
 - ✨ Convert golang programs to shellcode
 - 🎯 Direct execution in current process
 - ♻️ Automatic memory release after execution
@@ -106,6 +108,7 @@ python clematis.py -f target.exe -o output.bin -p "arg1 arg2"
 
 - 2024-12-27
     - Support for DOT NET (x64 | x86)
+
 - 2024-12-28
     - Fixed potential DOT NET program crashes (May not occur)
     - Added handling for IMAGE_DIRECTORY_ENTRY_EXCEPTION ( x64 )
@@ -129,6 +132,14 @@ python clematis.py -f target.exe -o output.bin -p "arg1 arg2"
         | `GetContextThread` | `NtGetContextThread` |
         | `SetContextThread` | `NtSetContextThread` |
         | ... |
+
+- 2025-1-1
+    - Added thread safety for managing thread lists and memory lists
+    - Fix some functional issues
+    - Remove parameter processing in payload and change to patch
+    - Support for upx
+    - Add architecture check in the payload to check whether the architecture matches
+    - Some implementations have been changed to provide better compatibility
 
 ---
 

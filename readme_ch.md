@@ -1,5 +1,7 @@
 # Clematis
 
+![ clematis ](images/clematis.png)
+
 [ [中文](https://github.com/CBLabresearch/clematis/blob/main/readme_ch.md) | [English](https://github.com/CBLabresearch/clematis/blob/main/readme.md) ]
 
 🛠️ 一个强大的工具，用于将PE文件（EXE/DLL）转换为与位置无关的shellcode。
@@ -104,27 +106,40 @@ python clematis.py -f target.exe -o output.bin -p "arg1 arg2"
 
 ## 🔄 最近更新
 
-- 支持 DOT NET（x64 | x86）
-- 修复了潜在的 DOT NET 程序崩溃问题（可能不会发生）
-- 更新API使用NTAPI
-    | 原API | 新API |
-    | --- | --- |
-    | `VirtualAlloc` | `NtAllocateVirtualMemory` |
-    | `VirtualProtect` | `NtProtectVirtualMemory` |
-    | `VirtualFree` | `NtFreeVirtualMemory` |
-    | `LoadLibrary` | `LdrLoadDll` |
-    | `GetProcAddress` | `LdrGetProcedureAddress` |
-    | `WaitForMultipleObjects` | `NtWaitForMultipleObjects` |
-    | `CreateEvent` | `NtCreateEvent` |
-    | `CloseHandle` | `NtClose` |
-    | `SignalObjectAndWait` | `NtSignalAndWaitForSingleObject` |
-    | `TerminateThread` | `NtTerminateThread` |
-    | `SuspendThread` | `NtSuspendThread` |
-    | `OpenThread` | `NtOpenThread` |
-    | `ResumeThread` | `NtResumeThread` |
-    | `GetContextThread` | `NtGetContextThread` |
-    | `SetContextThread` | `NtSetContextThread` |
-    | ... |
+- 2024-12-27
+    - 支持 DOT NET（x64 | x86）
+
+- 2024-12-28
+    - 修复了潜在的 DOT NET 程序崩溃问题（可能不会发生）
+    - 添加了 IMAGE_DIRECTORY_ENTRY_EXCEPTION 的处理（x64）
+    - 更新API使用NTAPI
+
+        | 原API | 新API |
+        | --- | --- |
+        | `VirtualAlloc` | `NtAllocateVirtualMemory` |
+        | `VirtualProtect` | `NtProtectVirtualMemory` |
+        | `VirtualFree` | `NtFreeVirtualMemory` |
+        | `LoadLibrary` | `LdrLoadDll` |
+        | `GetProcAddress` | `LdrGetProcedureAddress` |
+        | `WaitForMultipleObjects` | `NtWaitForMultipleObjects` |
+        | `CreateEvent` | `NtCreateEvent` |
+        | `CloseHandle` | `NtClose` |
+        | `SignalObjectAndWait` | `NtSignalAndWaitForSingleObject` |
+        | `TerminateThread` | `NtTerminateThread` |
+        | `SuspendThread` | `NtSuspendThread` |
+        | `OpenThread` | `NtOpenThread` |
+        | `ResumeThread` | `NtResumeThread` |
+        | `GetContextThread` | `NtGetContextThread` |
+        | `SetContextThread` | `NtSetContextThread` |
+        | ... |
+
+- 2025-1-1
+    - 增加了线程列表和内存列表管理的线程安全性
+    - 修复了一些功能性问题
+    - 移除了payload中的参数处理并改为patch方式
+    - 支持upx
+    - 在payload中添加架构检查以验证架构是否匹配
+    - 更改了一些实现方式以提供更好的兼容性
 
 ---
 
