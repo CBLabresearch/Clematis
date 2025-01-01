@@ -143,6 +143,14 @@ python clematis.py -f target.exe -o output.bin -p "arg1 arg2"
 
 ---
 
+## ⚠️ 警告
+- 我们不打算免费发布此更新，我们会将其放在付费圈子中。
+- 该项目将继续保持可用和免费，但未来可能不会更新，谢谢！
+
+![ clematis ](images/zsxq.jpg)
+
+---
+
 ## 🔍 工作原理
 
 Clematis通过以下步骤将PE文件转换为shellcode：
@@ -176,3 +184,5 @@ flowchart TD
 ## 🤝 贡献
 
 欢迎提交Issues和Pull Requests！
+
+---
